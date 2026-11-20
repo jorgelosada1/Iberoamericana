@@ -339,11 +339,6 @@ form.addEventListener('submit', event => {
     for (let k = 0; k < pasos.length; k++) {
         if (!completo(k)) { if (k !== actual) mostrar(k, -1); marcarErrores(k); return; }
     }
-    if (!SCRIPT_URL) {
-        showToast('El formulario aún no está conectado a Google Sheets. Avísale a tu asesor.', 'error');
-        console.warn('Falta configurar SCRIPT_URL en app.js (ver LEEME.md).');
-        return;
-    }
     const boton = $('btnSubmit');
     if (boton.disabled) return;
     boton.disabled = true;
@@ -375,6 +370,17 @@ form.addEventListener('submit', event => {
         autorizaDatos: $('autorizaDatos').checked ? 'Sí' : 'No'
     };
 
+    // Modo prueba: sin Google Sheets conectado, se muestra la pantalla final sin guardar nada
+    if (!SCRIPT_URL) {
+        console.info('Modo prueba (sin Google Sheets). Datos que se enviarían:', data);
+        setTimeout(() => {
+            $('loader').hidden = true;
+            boton.disabled = false;
+            terminar(data, true);
+        }, 900);
+        return;
+    }
+
     fetch(SCRIPT_URL, {
         method: 'POST',
         mode: 'no-cors',
@@ -384,14 +390,7 @@ form.addEventListener('submit', event => {
         .then(() => {
             $('loader').hidden = true;
             boton.disabled = false;
-            borrar(BORRADOR); borrar(BORRADOR + '-paso');
-            $('doneName').textContent = data.nombres.split(/\s+/)[0] || '';
-            form.hidden = true;
-            document.querySelector('.zona-head').hidden = true;
-            $('done').hidden = false;
-            lanzarConfeti();
-            $('done').scrollIntoView({ behavior: 'smooth', block: 'center' });
-            $('done').focus({ preventScroll: true });
+            terminar(data, false);
         })
         .catch(error => {
             $('loader').hidden = true;
@@ -400,6 +399,18 @@ form.addEventListener('submit', event => {
             console.error(error);
         });
 });
+
+function terminar(data, prueba) {
+    borrar(BORRADOR); borrar(BORRADOR + '-paso');
+    $('doneName').textContent = data.nombres.split(/\s+/)[0] || '';
+    $('modoPrueba').hidden = !prueba;
+    form.hidden = true;
+    document.querySelector('.zona-head').hidden = true;
+    $('done').hidden = false;
+    lanzarConfeti();
+    $('done').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    $('done').focus({ preventScroll: true });
+}
 
 function lanzarConfeti() {
     const c = document.querySelector('.confeti');
