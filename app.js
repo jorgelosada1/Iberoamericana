@@ -176,6 +176,10 @@ function mostrar(i, dir) {
         const b = li.querySelector('button');
         if (k === i) b.setAttribute('aria-current', 'step'); else b.removeAttribute('aria-current');
     });
+    $('snNum').textContent = i + 1;
+    $('snPaso').textContent = `Paso ${i + 1} de ${pasos.length}`;
+    $('snTitulo').textContent = pasos[i].dataset.titulo;
+    $('snNext').textContent = i < pasos.length - 1 ? 'Sigue: ' + pasos[i + 1].dataset.titulo : 'Último paso';
     const pct = Math.round(pasos.filter((_, k) => completo(k)).length / pasos.length * 100);
     $('progressBar').style.width = Math.max(pct, (i / pasos.length) * 100) + '%';
     $('pctTxt').textContent = pct + '%';
@@ -207,6 +211,8 @@ function marcarErrores(i) {
 }
 
 function irA(i) {
+    const foco = document.activeElement;
+    if (foco && foco !== document.body && pasos[actual].contains(foco)) foco.blur();
     if (i <= actual) { mostrar(i, -1); subir(); return; }
     for (let k = actual; k < i; k++) {
         if (!completo(k)) { if (k !== actual) mostrar(k, 1); marcarErrores(k); return; }

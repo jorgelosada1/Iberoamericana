@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="theme-color" content="#4A4848">
     <title>Inscripción IBERO</title>
     <meta name="description" content="Formulario de inscripción a la Corporación Universitaria Iberoamericana (IBERO). Educación que te encuentra.">
@@ -43,7 +43,7 @@
                 <span class="claim-sub">que te <b>encuentra</b></span>
             </h1>
             <p class="hero-lead">Completa tu inscripción en <b>5 pasos cortos</b>. Tu asesor te acompaña desde hoy hasta el día de tu matrícula.</p>
-            <a href="#inscripcion" class="cta">Empezar inscripción <span class="cta-ico"><span class="material-symbols-rounded">arrow_downward</span></span></a>
+            <a href="#registroForm" class="cta">Empezar inscripción <span class="cta-ico"><span class="material-symbols-rounded">arrow_downward</span></span></a>
 
             <ul class="stats">
                 <li><b>5</b><span>pasos cortos</span></li>
@@ -59,6 +59,12 @@
                 <rect x="248" y="-20" width="14" height="410" rx="7" fill="#fff" />
                 <path d="M262 214 a139 139 0 0 1 278 0 Z" fill="#DFC14E" />
                 <path d="M262 214 a139 139 0 0 0 278 0 Z" fill="#D0AB4B" />
+            </svg>
+            <svg viewBox="0 0 400 240" class="hero-band" preserveAspectRatio="xMidYMin slice">
+                <path d="M30 0 H200 V110 H372 V240 H30 Z" fill="#4A4848" />
+                <rect x="196" y="-10" width="10" height="160" rx="5" fill="#fff" />
+                <path d="M206 110 a83 83 0 0 1 166 0 Z" fill="#DFC14E" />
+                <path d="M206 110 a83 83 0 0 0 166 0 Z" fill="#D0AB4B" />
             </svg>
 
             <div class="hero-card">
@@ -99,6 +105,11 @@
             <!-- Barra lateral de pasos -->
             <aside class="wz-side">
                 <p class="side-title">Tu inscripción</p>
+                <div class="side-now" aria-hidden="true">
+                    <span class="sn-num" id="snNum">1</span>
+                    <span class="sn-txt"><small id="snPaso">Paso 1 de 5</small><b id="snTitulo">Datos personales</b></span>
+                    <span class="sn-next" id="snNext"></span>
+                </div>
                 <ol class="steps" id="steps" aria-label="Pasos de la inscripción"></ol>
                 <div class="side-progress">
                     <div class="sp-row"><span>Progreso</span><b id="pctTxt">0%</b></div>
@@ -118,13 +129,13 @@
                         <p>Escríbelos <b>exactamente</b> como aparecen en tu documento.</p>
                     </header>
                     <div class="campos">
-                        <label class="field span-2">
+                        <label class="field c-full">
                             <span class="lbl">Nombres y apellidos completos</span>
                             <input required type="text" class="input" id="nombres" autocomplete="name" data-titulo placeholder="Ej: María Fernanda Rojas Pérez" minlength="5">
                             <small class="err">Escribe tus nombres y apellidos completos.</small>
                         </label>
 
-                        <div class="choice span-2">
+                        <div class="choice c-full">
                             <span class="lbl" id="lbl-tdoc">Tipo de documento</span>
                             <select required class="sr-select" id="tipoDocumento" aria-labelledby="lbl-tdoc" data-chips>
                                 <option value="" selected></option>
@@ -137,27 +148,23 @@
                             <small class="err">Elige tu tipo de documento.</small>
                         </div>
 
-                        <label class="field">
+                        <label class="field c-third m-full">
                             <span class="lbl">Número de documento</span>
                             <input required type="text" class="input" id="numeroDocumento" inputmode="numeric" autocomplete="off" placeholder="Sin puntos ni espacios" pattern="[0-9]{5,12}">
                             <small class="err">Escribe un número de documento válido.</small>
                         </label>
-                        <label class="field">
-                            <span class="lbl">Fecha de expedición del documento</span>
+                        <label class="field c-third">
+                            <span class="lbl">Fecha de expedición</span>
                             <input required type="date" class="input" id="fechaExpedicion">
                             <small class="err">Revisa la fecha de expedición.</small>
                         </label>
-                        <label class="field">
+                        <label class="field c-third">
                             <span class="lbl">Fecha de nacimiento</span>
                             <input required type="date" class="input" id="fechaNacimiento" autocomplete="bday">
                             <small class="err">Revisa tu fecha de nacimiento.</small>
                         </label>
-                        <div class="field field-hint">
-                            <span class="material-symbols-rounded">info</span>
-                            <p>En celular, toca la fecha y elige <b>año, mes y día</b> en el calendario.</p>
-                        </div>
 
-                        <div class="choice span-2">
+                        <div class="choice c-full">
                             <span class="lbl" id="lbl-ec">Estado civil</span>
                             <select required class="sr-select" id="estadoCivil" aria-labelledby="lbl-ec" data-chips>
                                 <option value="" selected></option>
@@ -180,32 +187,32 @@
                         <p>Tu asesor usará estos datos para escribirte y llamarte.</p>
                     </header>
                     <div class="campos">
-                        <label class="field">
+                        <label class="field c-half">
                             <span class="lbl">Celular</span>
                             <span class="pre"><em>+57</em><input required type="tel" class="input" id="celular" autocomplete="tel-national" inputmode="numeric" placeholder="3001234567" pattern="3[0-9]{9}" data-digitos></span>
                             <small class="err">Escribe un celular de 10 dígitos que empiece por 3.</small>
                         </label>
-                        <label class="field">
+                        <label class="field c-half">
                             <span class="lbl">Teléfono fijo <span class="opt">Opcional</span></span>
                             <input type="tel" class="input" id="telefonoFijo" inputmode="numeric" placeholder="6011234567" pattern="[0-9]{7,10}" data-digitos>
                             <small class="err">El fijo debe tener entre 7 y 10 dígitos.</small>
                         </label>
-                        <label class="field span-2">
+                        <label class="field c-full">
                             <span class="lbl">Correo electrónico</span>
                             <input required type="email" class="input" id="email" autocomplete="email" placeholder="nombre@gmail.com" pattern="[^@\s]+@[^@\s]+\.[^@\s]{2,}">
                             <small class="err">Escribe un correo válido, por ejemplo nombre@gmail.com.</small>
                         </label>
-                        <label class="field span-2">
+                        <label class="field c-full">
                             <span class="lbl">Ciudad de residencia</span>
                             <input required type="text" class="input" id="ciudad" list="ciudadList" autocomplete="address-level2" placeholder="Escribe o elige tu ciudad" data-titulo>
                             <small class="err">Escribe tu ciudad.</small>
                         </label>
-                        <label class="field">
+                        <label class="field c-half">
                             <span class="lbl">Dirección</span>
                             <input required type="text" class="input" id="direccion" autocomplete="street-address" placeholder="Ej: Calle 10 # 5-20, apto 301">
                             <small class="err">Escribe tu dirección.</small>
                         </label>
-                        <label class="field">
+                        <label class="field c-half">
                             <span class="lbl">Barrio</span>
                             <input required type="text" class="input" id="barrio" placeholder="Barrio o vereda" data-titulo>
                             <small class="err">Escribe tu barrio.</small>
@@ -221,13 +228,13 @@
                         <p>Esta información nos ayuda a acompañarte mejor y a conocer los apoyos a los que puedes acceder.</p>
                     </header>
                     <div class="campos">
-                        <label class="field span-2">
+                        <label class="field c-full">
                             <span class="lbl">EPS</span>
                             <input required type="text" class="input" id="eps" list="epsList" placeholder="Escribe o elige tu EPS" autocomplete="off">
                             <small class="err">Escribe tu EPS (o “Ninguna”).</small>
                         </label>
 
-                        <div class="choice span-2">
+                        <div class="choice c-half">
                             <span class="lbl" id="lbl-estrato">Estrato socioeconómico</span>
                             <select required class="sr-select" id="estrato" aria-labelledby="lbl-estrato" data-chips="num">
                                 <option value="" selected></option>
@@ -237,8 +244,8 @@
                             <small class="err">Elige tu estrato.</small>
                         </div>
 
-                        <div class="choice span-2">
-                            <span class="lbl" id="lbl-cargo">Número de personas que tienes a cargo</span>
+                        <div class="choice c-half">
+                            <span class="lbl" id="lbl-cargo">Personas a tu cargo</span>
                             <select required class="sr-select" id="personasACargo" aria-labelledby="lbl-cargo" data-chips="num">
                                 <option value="" selected></option>
                                 <option value="0">0</option><option value="1">1</option><option value="2">2</option>
@@ -247,7 +254,7 @@
                             <small class="err">Elige cuántas personas tienes a cargo.</small>
                         </div>
 
-                        <div class="choice span-2">
+                        <div class="choice c-full">
                             <span class="lbl" id="lbl-etnia">Grupo étnico</span>
                             <select required class="sr-select" id="grupoEtnico" aria-labelledby="lbl-etnia" data-chips>
                                 <option value="" selected></option>
@@ -261,7 +268,7 @@
                             <small class="err">Elige una opción.</small>
                         </div>
 
-                        <div class="choice span-2">
+                        <div class="choice c-full">
                             <span class="lbl" id="lbl-disc">Discapacidad</span>
                             <select required class="sr-select" id="discapacidad" aria-labelledby="lbl-disc" data-chips>
                                 <option value="" selected></option>
@@ -276,7 +283,7 @@
                             </select>
                             <small class="err">Elige una opción.</small>
                         </div>
-                        <label class="field span-2" id="discCualRow" hidden>
+                        <label class="field c-full" id="discCualRow" hidden>
                             <span class="lbl">¿Cuál?</span>
                             <input type="text" class="input" id="discapacidadCual" placeholder="Cuéntanos brevemente">
                             <small class="err">Cuéntanos cuál.</small>
@@ -292,17 +299,17 @@
                         <p>Alguien de confianza a quien podamos llamar en caso de ser necesario.</p>
                     </header>
                     <div class="campos">
-                        <label class="field span-2">
+                        <label class="field c-full">
                             <span class="lbl">Nombre del familiar</span>
                             <input required type="text" class="input" id="contactoNombre" placeholder="Nombres y apellidos" data-titulo minlength="3">
                             <small class="err">Escribe el nombre de tu familiar.</small>
                         </label>
-                        <label class="field">
+                        <label class="field c-half">
                             <span class="lbl">Parentesco</span>
                             <input required type="text" class="input" id="contactoParentesco" list="parentescoList" placeholder="Ej: Madre" autocomplete="off">
                             <small class="err">Escribe el parentesco.</small>
                         </label>
-                        <label class="field">
+                        <label class="field c-half">
                             <span class="lbl">Número de contacto</span>
                             <span class="pre"><em>+57</em><input required type="tel" class="input" id="contactoTelefono" inputmode="numeric" placeholder="3001234567" pattern="[0-9]{7,10}" data-digitos></span>
                             <small class="err">Escribe un número de 7 a 10 dígitos.</small>
